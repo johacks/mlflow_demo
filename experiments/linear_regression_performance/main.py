@@ -43,30 +43,20 @@ args = parser.parse_args()
 experiment_name = "My Experiment"
 run_name = args.run_name
 
-# get git commit hash
-git_hash = (
-    subprocess.check_output(["git", "rev-parse", "HEAD"])
-    .strip()
-    .decode(
-        "utf-8",
-    )
-)
+# Check that the git repo is clean
+check_git_clean()
 
 mlflow.set_experiment(experiment_name)
 with mlflow.start_run(run_name=run_name):
-    mlflow.set_tag("source_version", git_hash)
 
     # Log the command line arguments
     mlflow.log_params(vars(args))
-
-    # Check that the git repo is clean
-    check_git_clean()
 
     # Run make_data.py if requested
     if args.make_data:
         subprocess.run(["python", "make_data.py"])
 
-    mlflow.log_artifact("data.csv")
+    mlflow.log_artifact("data.csv", "data.csv")
 
     # Run make_model.py if requested
     if args.make_model:
