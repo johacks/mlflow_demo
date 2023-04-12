@@ -56,7 +56,7 @@ with mlflow.start_run(run_name=run_name):
     if args.make_data:
         subprocess.run(["python", "make_data.py"])
 
-    mlflow.log_artifact("data.csv", "data.csv")
+    mlflow.log_artifact("data.csv", "/home/ubuntu/mlflow_demo/data.csv")
 
     # Run make_model.py if requested
     if args.make_model:
