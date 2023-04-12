@@ -56,16 +56,19 @@ with mlflow.start_run(run_name=run_name):
     if args.make_data:
         subprocess.run(["python", "make_data.py"])
 
-    mlflow.log_artifact("data.csv", "/home/ubuntu/mlflow_demo/data.csv")
+    mlflow.log_param("data_generation_script", "make_data.py")
+    mlflow.log_param("generated_data", "data.csv")
 
     # Run make_model.py if requested
     if args.make_model:
         subprocess.run(["python", "make_model.py"])
 
-    mlflow.log_artifact("model.pkl")
+    mlflow.log_param("model_generation_script", "make_model.py")
+    mlflow.log_param("generated_model", "model.pkl")
 
     # Run make_plot.py if requested
     if args.make_plot:
         subprocess.run(["python", "make_plot.py"])
 
-    mlflow.log_artifact("plot.png")
+    mlflow.log_param("plot_generation_script", "make_plot.py")
+    mlflow.log_artifact("generated_plot", "plot.png")
